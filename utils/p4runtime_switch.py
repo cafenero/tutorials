@@ -38,6 +38,7 @@ class P4RuntimeSwitch(P4Switch):
                  device_id = None,
                  enable_debugger = False,
                  log_file = None,
+                 cpu_port = None,
                  **kwargs):
         Switch.__init__(self, name, **kwargs)
         assert (sw_path)
@@ -65,6 +66,9 @@ class P4RuntimeSwitch(P4Switch):
         else:
             self.thrift_port = P4RuntimeSwitch.next_thrift_port
             P4RuntimeSwitch.next_thrift_port += 1
+
+        print("dbg class P4RuntimeSwitch cpu_port=%s" % (cpu_port))
+        self.cpu_port = cpu_port
 
         if check_listening_on_port(self.grpc_port):
             error('%s cannot bind port %d because it is bound by another process\n' % (self.name, self.grpc_port))
@@ -121,8 +125,11 @@ class P4RuntimeSwitch(P4Switch):
             args.append('--thrift-port ' + str(self.thrift_port))
         if self.grpc_port:
             args.append("-- --grpc-server-addr 0.0.0.0:" + str(self.grpc_port))
+        if self.cpu_port:
+            args.append("-- --cpu-port " + str(self.cpu_port))
         cmd = ' '.join(args)
         info(cmd + "\n")
+        print("dbg cmd='%s'" % (cmd))
 
 
         pid = None
@@ -130,8 +137,8 @@ class P4RuntimeSwitch(P4Switch):
             self.cmd(cmd + ' >' + self.log_file + ' 2>&1 & echo $! >> ' + f.name)
             pid = int(f.read())
         debug("P4 switch {} PID is {}.\n".format(self.name, pid))
+        debug("CPU port is {}.\n".format(self.cpu_port))
         if not self.check_switch_started(pid):
             error("P4 switch {} did not start correctly.\n".format(self.name))
             exit(1)
         info("P4 switch {} has been started.\n".format(self.name))
-

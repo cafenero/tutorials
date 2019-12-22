@@ -45,6 +45,9 @@ def configureP4Switch(**switch_args):
                 P4RuntimeSwitch.__init__(self, *opts, **kwargs)
 
             def describe(self):
+                print '====================================='
+                print 'Switch Device ID: %s' % str(self.device_id)
+                print 'Switch CPU port: %s' % str(self.cpu_port)
                 print "%s -> gRPC port: %d" % (self.name, self.grpc_port)
 
         return ConfiguredP4RuntimeSwitch
@@ -85,7 +88,8 @@ class ExerciseTopo(Topo):
                         sw_path=bmv2_exe,
                         json_path=params["program"],
                         log_console=True,
-                        pcap_dump=pcap_dir)
+                        pcap_dump=pcap_dir,
+                        cpu_port=253)
             else:
                 # add default switch
                 switchClass = None
@@ -247,7 +251,8 @@ class ExerciseRunner:
                                 sw_path=self.bmv2_exe,
                                 json_path=self.switch_json,
                                 log_console=True,
-                                pcap_dump=self.pcap_dir)
+                                pcap_dump=self.pcap_dir,
+                                cpu_port=253)
 
         self.topo = ExerciseTopo(self.hosts, self.switches, self.links, self.log_dir, self.bmv2_exe, self.pcap_dir)
 
