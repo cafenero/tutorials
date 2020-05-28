@@ -7,6 +7,7 @@ set -xe
 BMV2_COMMIT="b447ac4c0cfd83e5e72a3cc6120251c1e91128ab"  # August 10, 2019
 PI_COMMIT="41358da0ff32c94fa13179b9cee0ab597c9ccbcc"    # August 10, 2019
 P4C_COMMIT="69e132d0d663e3408d740aaf8ed534ecefc88810"   # August 10, 2019
+MININET_COMMIT="bd1a442a17dcd90c693f8d16970cc36f7fbba9d6"  # August 10, 2019
 PROTOBUF_COMMIT="v3.2.0"
 GRPC_COMMIT="v1.3.2"
 
@@ -15,6 +16,9 @@ NUM_CORES=`grep -c ^processor /proc/cpuinfo`
 
 # --- Mininet --- #
 git clone git://github.com/mininet/mininet mininet
+cd mininet
+git checkout ${MININET_COMMIT}
+cd ..
 sudo ./mininet/util/install.sh -nwv
 
 # --- Protobuf --- #
