@@ -51,7 +51,11 @@ sudo ldconfig
 unset LDFLAGS
 cd ..
 # Install gRPC Python Package
-sudo pip install grpcio
+# As of 2020-May-28 on an Ubuntu 16.04 system, attempting 'sudo pip
+# install grpcio==1.3.2' gave an error that version 1.3.2 could not be
+# found, and a list of versions, of which the closest two to 1.3.2
+# were 1.3.0 and 1.3.3.
+sudo pip install grpcio==1.3.3
 
 # --- BMv2 deps (needed by PI) --- #
 git clone https://github.com/p4lang/behavioral-model.git
@@ -117,7 +121,7 @@ sudo ldconfig
 cd ../..
 
 # --- Tutorials --- #
-sudo pip install crcmod
+sudo pip install crcmod==1.7
 git clone https://github.com/p4lang/tutorials
 sudo mv tutorials /home/p4
 sudo chown -R p4:p4 /home/p4/tutorials
