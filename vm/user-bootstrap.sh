@@ -55,7 +55,16 @@ cd ..
 # install grpcio==1.3.2' gave an error that version 1.3.2 could not be
 # found, and a list of versions, of which the closest two to 1.3.2
 # were 1.3.0 and 1.3.3.
-sudo pip install grpcio==1.3.3
+
+# Installing grpcio 1.3.3 causes 'cd exercises/basic ; cp
+# solutions/basic.p4 . ; make run' to fail with this as part of the
+# error message, not including the stack trace:
+# AttributeError: 'module' object has no attribute 'UnaryUnaryClientInterceptor'
+
+# I experimented with grpcio versions up through 1.10.0, and 1.8.1 was
+# the smallest version number I found that enabled the basic.p4
+# tutorial to pass packets successfully.
+sudo pip install grpcio==1.8.1
 
 # --- BMv2 deps (needed by PI) --- #
 git clone https://github.com/p4lang/behavioral-model.git
