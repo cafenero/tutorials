@@ -131,7 +131,7 @@ sudo pip install grpcio==1.8.1
 
 # For some reason I do not know, the install of scapy via pip3 below
 # fails unless I do this first.
-sudo -H pip3 install setuptools
+sudo -H pip3 install setuptools wheel
 
 # Starting in 2019-Nov, the Python3 version of Scapy is needed for 'cd
 # p4c/build ; make check' to succeed.
