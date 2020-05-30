@@ -64,7 +64,7 @@ cd ..
 # I experimented with grpcio versions up through 1.10.0, and 1.8.1 was
 # the smallest version number I found that enabled the basic.p4
 # tutorial to pass packets successfully.
-sudo pip install grpcio==1.8.1
+sudo -H pip install grpcio==1.8.1
 
 # --- BMv2 deps (needed by PI) --- #
 git clone https://github.com/p4lang/behavioral-model.git
@@ -129,12 +129,19 @@ sudo make install
 sudo ldconfig
 cd ../..
 
+# For some reason I do not know, the install of scapy via pip3 below
+# fails unless these packages are installed first in a separate step.
+# It seems like it should be the case that if they are required by the
+# Python3 scapy package, that the command below would install them,
+# too, but that seems not to be the case.
+sudo -H pip3 install setuptools wheel
+
 # Starting in 2019-Nov, the Python3 version of Scapy is needed for 'cd
 # p4c/build ; make check' to succeed.
-sudo pip3 install scapy==2.4.3
+sudo -H pip3 install scapy==2.4.3
 
 # --- Tutorials --- #
-sudo pip install crcmod==1.7
+sudo -H pip install crcmod==1.7
 git clone https://github.com/p4lang/tutorials
 sudo mv tutorials /home/p4
 sudo chown -R p4:p4 /home/p4/tutorials
