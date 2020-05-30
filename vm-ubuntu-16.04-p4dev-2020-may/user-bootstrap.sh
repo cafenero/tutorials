@@ -129,6 +129,10 @@ sudo make install
 sudo ldconfig
 cd ../..
 
+# Starting in 2019-Nov, the Python3 version of Scapy is needed for 'cd
+# p4c/build ; make check' to succeed.
+sudo pip3 install scapy==2.4.3
+
 # --- Tutorials --- #
 sudo pip install crcmod==1.7
 git clone https://github.com/p4lang/tutorials

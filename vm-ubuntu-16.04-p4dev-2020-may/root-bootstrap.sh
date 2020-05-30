@@ -58,6 +58,7 @@ apt-get install -y --no-install-recommends --fix-missing\
   python-psutil \
   python-scapy \
   python-setuptools \
+  python3-pip \
   sublime-text-installer \
   tcpdump \
   unzip \
