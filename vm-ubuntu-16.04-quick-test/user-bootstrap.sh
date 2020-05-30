@@ -129,9 +129,13 @@ sudo pip install grpcio==1.8.1
 #sudo ldconfig
 #cd ../..
 
+# For some reason I do not know, the install of scapy via pip3 below
+# fails unless I do this first.
+sudo -H pip3 install setuptools
+
 # Starting in 2019-Nov, the Python3 version of Scapy is needed for 'cd
 # p4c/build ; make check' to succeed.
-sudo pip3 install scapy==2.4.3
+sudo -H pip3 install scapy==2.4.3
 
 # --- Tutorials --- #
 #sudo pip install crcmod==1.7
