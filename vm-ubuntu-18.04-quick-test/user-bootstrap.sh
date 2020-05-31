@@ -131,7 +131,7 @@ sudo pip install grpcio==1.8.1
 
 # For some reason I do not know, the install of scapy via pip3 below
 # fails unless I do this first.
-#sudo -H pip3 install setuptools wheel
+sudo -H pip3 install setuptools wheel
 
 # Starting in 2019-Nov, the Python3 version of Scapy is needed for 'cd
 # p4c/build ; make check' to succeed.
@@ -207,6 +207,16 @@ EOF
 sudo mkdir -p /home/p4/Desktop
 sudo mv /home/${USER}/Desktop/* /home/p4/Desktop
 sudo chown -R p4:p4 /home/p4/Desktop/
+
+# TBD: At some point, edit the file
+# ~p4/.config/pcmanfm/lubuntu/desktop-items-0.conf
+# to replace this line:
+# wallpaper_mode=fit
+# with:
+# wallpaper_mode=center
+
+# Note: the original line to replace might have something other than
+# 'fit' on the right hand side of the assignment.
 
 # Do this last!
 sudo reboot
