@@ -36,7 +36,6 @@ apt-get install -y --no-install-recommends --fix-missing\
   libgmp10 \
   libgmpxx4ldbl \
   libjudy-dev \
-  libreadline \
   libreadline-dev \
   libtool \
   libtool-bin \
