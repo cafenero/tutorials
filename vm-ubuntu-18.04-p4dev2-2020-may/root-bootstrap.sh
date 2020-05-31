@@ -19,11 +19,12 @@ apt-get install -y --no-install-recommends --fix-missing\
   cmake \
   cpp \
   curl \
-  emacs24 \
+  emacs25 \
   flex \
   git \
   libboost-dev \
-  libboost-iostreams1.58-dev \
+  libboost-graph-dev \
+  libboost-iostreams-dev \
   libboost-system-dev \
   libboost-thread-dev \
   libc6-dev \
@@ -35,26 +36,34 @@ apt-get install -y --no-install-recommends --fix-missing\
   libgmp10 \
   libgmpxx4ldbl \
   libjudy-dev \
-  libreadline6 \
-  libreadline6-dev \
+  libreadline \
+  libreadline-dev \
   libtool \
+  libtool-bin \
   linux-headers-$KERNEL\
+  llvm \
   lubuntu-desktop \
   make \
-  mktemp \
+  net-tools \
   pkg-config \
   python \
   python-ipaddr \
   python-pip \
+  python-ply \
   python-psutil \
   python-scapy \
   python-setuptools \
   python3-pip \
   tcpdump \
   unzip \
+  valgrind \
   vim \
   xcscope-el \
   xterm
+
+# TBD: Add these packages?
+# g++
+# zlib1g-dev
 
 useradd -m -d /home/p4 -s /bin/bash p4
 echo "p4:p4" | chpasswd
