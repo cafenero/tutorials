@@ -43,6 +43,7 @@ apt-get install -y --no-install-recommends --fix-missing\
   sublime-text \
   unzip \
   vim \
+  wireshark \
   wget \
   xterm
 

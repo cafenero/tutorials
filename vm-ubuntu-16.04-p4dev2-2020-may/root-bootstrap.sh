@@ -55,6 +55,7 @@ apt-get install -y --no-install-recommends --fix-missing\
   tcpdump \
   unzip \
   vim \
+  wireshark \
   xcscope-el \
   xterm
 

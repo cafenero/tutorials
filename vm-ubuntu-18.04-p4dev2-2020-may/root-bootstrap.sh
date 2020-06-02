@@ -57,6 +57,7 @@ apt-get install -y --no-install-recommends --fix-missing\
   unzip \
   valgrind \
   vim \
+  wireshark \
   xcscope-el \
   xterm
 
