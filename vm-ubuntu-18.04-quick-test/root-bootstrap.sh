@@ -43,9 +43,14 @@ apt-get install -y --no-install-recommends --fix-missing\
   sublime-text \
   unzip \
   vim \
-  wireshark \
   wget \
   xterm
+
+# Noninteractive installation of wireshark is a bit unique.  The below
+# is following instructions found in an answer on this web page:
+# https://unix.stackexchange.com/questions/367866/how-to-choose-a-response-for-interactive-prompt-during-installation-from-a-shell
+echo "wireshark-common wireshark-common/install-setuid boolean false" | debconf-set-selections
+apt-get install -y --no-install-recommends --fix-missing wireshark
 
 useradd -m -d /home/p4 -s /bin/bash p4
 echo "p4:p4" | chpasswd
