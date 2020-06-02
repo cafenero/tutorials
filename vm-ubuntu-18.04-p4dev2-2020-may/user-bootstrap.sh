@@ -36,7 +36,13 @@ sudo ldconfig
 unset CFLAGS CXXFLAGS LDFLAGS
 # Force install python module
 cd python
-sudo python setup.py install
+# Installing python module in this way seems to do so in a way on
+# Ubuntu 18.04 that 'import google.protobuf.internal' fails, perhaps
+# because it is "shadowed" in the default Python2 sys.path by
+# google.rpc?  I am not sure.  As an attempted workaround, do not
+# install the Python2 protobuf package this way, but instead do so
+# later below using pip.
+#sudo python setup.py install
 cd ../..
 
 # --- gRPC --- #
@@ -61,6 +67,8 @@ cd ..
 # _basic_ P4Runtime API testing on a system on which this install
 # script was run.
 sudo -H pip install grpcio==1.17.1
+
+sudo -H pip install protobuf==3.6.1
 
 # --- BMv2 deps (needed by PI) --- #
 git clone https://github.com/p4lang/behavioral-model.git
