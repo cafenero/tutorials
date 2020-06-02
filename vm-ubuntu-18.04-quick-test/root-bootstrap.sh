@@ -3,11 +3,31 @@
 # Print commands and exit on errors
 set -xe
 
+# Followed Ubuntu instructions for installing Sublime text editor
+# retrieved from the following web page on 2020-Jun-02:
+# https://www.sublimetext.com/docs/3/linux_repositories.html
+wget -qO - https://download.sublimetext.com/sublimehq-pub.gpg | apt-key add -
+apt-get install -y apt-transport-https
+echo "deb https://download.sublimetext.com/ apt/stable/" | tee /etc/apt/sources.list.d/sublime-text.list
+# The following commands are done later below:
+#apt-get update
+#apt-get install sublime-text
+
+# Followed Ubuntu instructions for installing Atom text editor
+# retrieved from the following web page on 2020-Jun-02:
+# https://flight-manual.atom.io/getting-started/sections/installing-atom/#platform-linux
+wget -qO - https://packagecloud.io/AtomEditor/atom/gpgkey | apt-key add -
+sh -c 'echo "deb [arch=amd64] https://packagecloud.io/AtomEditor/atom/any/ any main" > /etc/apt/sources.list.d/atom.list'
+# The following commands are done later below:
+#apt-get update
+#apt-get install atom
+
 apt-get update
 
 KERNEL=$(uname -r)
 DEBIAN_FRONTEND=noninteractive apt-get -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" upgrade
 apt-get install -y --no-install-recommends --fix-missing\
+  atom \
   ca-certificates \
   curl \
   git \
@@ -20,6 +40,7 @@ apt-get install -y --no-install-recommends --fix-missing\
   python-scapy \
   python-setuptools \
   python3-pip \
+  sublime-text \
   unzip \
   vim \
   wget \

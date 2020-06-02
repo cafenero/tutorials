@@ -208,12 +208,9 @@ sudo mkdir -p /home/p4/Desktop
 sudo mv /home/${USER}/Desktop/* /home/p4/Desktop
 sudo chown -R p4:p4 /home/p4/Desktop/
 
-# TBD: At some point, edit the file
-# ~p4/.config/pcmanfm/lubuntu/desktop-items-0.conf
-# to replace this line:
-# wallpaper_mode=fit
-# with:
-# wallpaper_mode=center
+# Make the P4 logo look "normal size" in center of desktop, not
+# stretched in odd way.
+sed -i s@wallpaper_mode=crop@wallpaper_mode=center@ /home/p4/.config/pcmanfm/lubuntu/desktop-items-0.conf
 
 # Note: the original line to replace might have something other than
 # 'fit' on the right hand side of the assignment.
