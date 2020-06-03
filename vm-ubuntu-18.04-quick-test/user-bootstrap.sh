@@ -207,21 +207,17 @@ EOF
 sudo mkdir -p /home/p4/Desktop
 sudo mv /home/${USER}/Desktop/* /home/p4/Desktop
 
-# Debug commands to see what current state of user id and file system are
-id
-ls -la /home/p4
-wc -l /home/p4/.profile
-cat /home/p4/.profile
-
 # I believe that the config file to be modified is not created until
 # the p4 user logs in for the first time, so put the command to edit
 # that file into the p4 user's $HOME/.profile script.
-echo "" >> /home/p4/.profile
-echo "# Make the P4 logo look normal size in center of desktop, not" >> /home/p4/.profile
-echo "# stretched in odd way." >> /home/p4/.profile
-echo "sed -i s@wallpaper_mode=crop@wallpaper_mode=center@ /home/p4/.config/pcmanfm/lubuntu/desktop-items-0.conf" >> /home/p4/.profile
-
-sudo chown -R p4:p4 /home/p4/Desktop/
+TMPF=/tmp/p4-dot-profile
+cp /home/p4/.profile ${TMPF}
+echo "" >> ${TMPF}
+echo "# Make the P4 logo look normal size in center of desktop, not" >> ${TMPF}
+echo "# stretched in odd way." >> ${TMPF}
+echo "sed -i s@wallpaper_mode=crop@wallpaper_mode=center@ /home/p4/.config/pcmanfm/lubuntu/desktop-items-0.conf" >> ${TMPF}
+cp ${TMPF} /home/p4/.profile
+sudo chown p4:p4 /home/p4/.profile
 
 # Do this last!
 sudo reboot
