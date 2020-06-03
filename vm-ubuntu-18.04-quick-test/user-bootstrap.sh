@@ -216,6 +216,7 @@ echo "" >> ${TMPF}
 echo "# Make the P4 logo look normal size in center of desktop, not" >> ${TMPF}
 echo "# stretched in odd way." >> ${TMPF}
 echo "sed -i s@wallpaper_mode=crop@wallpaper_mode=center@ /home/p4/.config/pcmanfm/lubuntu/desktop-items-0.conf" >> ${TMPF}
+sudo rm /home/p4/.profile
 cp ${TMPF} /home/p4/.profile
 sudo chown p4:p4 /home/p4/.profile
 
