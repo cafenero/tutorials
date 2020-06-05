@@ -66,7 +66,6 @@ apt-get install -y --no-install-recommends --fix-missing\
   lubuntu-desktop \
   python-dev \
   python-psutil \
-  python-scapy \
   python-setuptools \
   python3-pip \
   sublime-text \

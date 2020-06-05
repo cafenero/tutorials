@@ -68,7 +68,7 @@ apt-get install -y --no-install-recommends --fix-missing\
   cmake \
   cpp \
   curl \
-  emacs25 \
+  emacs \
   flex \
   git \
   libboost-dev \
