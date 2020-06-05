@@ -24,6 +24,38 @@ echo "deb [arch=amd64] https://packagecloud.io/AtomEditor/atom/any/ any main" > 
 
 apt-get update
 
+######################################################################
+# Special Python2 installation steps for Ubuntu 20.04
+######################################################################
+
+# Several P4 open source projects still require Python 2 and PIP for
+# Python 2.
+
+# Ubuntu 20.04 is the first release to make Python3 the default
+# version of Python, and while Python2 can still be installed, the
+# method of doing so is different, as is installing the Python2
+# version of pip.
+
+# The python2 package installs python2 as the command
+# /usr/bin/python2, but not as /usr/bin/python.  The package
+# python-is-python2 installs python2 as /usr/bin/python.
+apt-get install -y --no-install-recommends --fix-missing\
+  wget \
+  python2 \
+  python-is-python2
+
+# This appears to be official-looking documentation that recommends
+# these steps for installing Python2 pip:
+# https://pip.pypa.io/en/stable/installing/
+wget https://bootstrap.pypa.io/get-pip.py
+# When run as root, this installs pip executable in system-wide
+# /usr/local/bin and /usr/local/lib/python2.7.  If run as non-root
+# user, without sudo, it would instead install in the corresponding
+# $HOME/.local/bin and $HOME/.local/lib/python2.7 directories, where
+# $HOME is the home directory of the user that ran this script.
+python get-pip.py
+
+
 KERNEL=$(uname -r)
 DEBIAN_FRONTEND=noninteractive apt-get -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" upgrade
 apt-get install -y --no-install-recommends --fix-missing\
@@ -32,10 +64,7 @@ apt-get install -y --no-install-recommends --fix-missing\
   curl \
   git \
   lubuntu-desktop \
-  python \
   python-dev \
-  python-ipaddr \
-  python-pip \
   python-psutil \
   python-scapy \
   python-setuptools \
@@ -43,7 +72,6 @@ apt-get install -y --no-install-recommends --fix-missing\
   sublime-text \
   unzip \
   vim \
-  wget \
   xterm
 
 # Noninteractive installation of wireshark is a bit unique.  The below
