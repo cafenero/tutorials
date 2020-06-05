@@ -123,15 +123,23 @@ rm lubuntu-default-wallpaper.png
 ln -s p4-logo.png lubuntu-default-wallpaper.png
 rm /home/vagrant/p4-logo.png
 cd ~
-sed -i s@#background=@background=/usr/share/lubuntu/wallpapers/1604-lubuntu-default-wallpaper.png@ /etc/lightdm/lightdm-gtk-greeter.conf
+
+# TBD: I am not sure if this should be replaced with something else on
+# Ubuntu 20.04, but the /etc/lightdm directory does not even exist
+# there.  Comment out for now.
+#sed -i s@#background=@background=/usr/share/lubuntu/wallpapers/1604-lubuntu-default-wallpaper.png@ /etc/lightdm/lightdm-gtk-greeter.conf
 
 # Disable screensaver
-apt-get -y remove light-locker
+#apt-get -y remove light-locker
 
 # Automatically log into the P4 user
-cat << EOF | tee -a /etc/lightdm/lightdm.conf.d/10-lightdm.conf
-[SeatDefaults]
-autologin-user=p4
-autologin-user-timeout=0
-user-session=Lubuntu
-EOF
+# TBD: How to do this on Ubuntu 20.04 when the /etc/lightdm directory
+# does not exist?  Perhaps there is some sddm configuration command to run,
+# or configuration file to edit?
+
+#cat << EOF | tee -a /etc/lightdm/lightdm.conf.d/10-lightdm.conf
+#[SeatDefaults]
+#autologin-user=p4
+#autologin-user-timeout=0
+#user-session=Lubuntu
+#EOF

@@ -222,27 +222,30 @@ sudo chown -R p4:p4 /home/p4/Desktop/
 # Make the P4 logo look normal size in center of desktop, not
 # stretched in odd way.
 
-TMPF=/tmp/lubuntu.tmp
-cat > ${TMPF} << EOF
-[*]
-wallpaper_mode=center
-wallpaper_common=1
-wallpapers_configured=1
-wallpaper0=/usr/share/lubuntu/wallpapers/lubuntu-default-wallpaper.png
-wallpaper=/usr/share/lubuntu/wallpapers/lubuntu-default-wallpaper.png
-desktop_bg=#2e4060
-desktop_fg=#ffffff
-desktop_shadow=#000000
-desktop_font=Ubuntu 11
-show_wm_menu=0
-sort=mtime;ascending;
-show_documents=0
-show_trash=1
-show_mounts=1
-EOF
-sudo mkdir -p /home/p4/.config/pcmanfm/lubuntu
-sudo mv ${TMPF} /home/p4/.config/pcmanfm/lubuntu/desktop-items-0.conf
-sudo chown -R p4:p4 /home/p4/.config/
+# TBD: This probably needs to change to creating or editing the file
+# .config/pcmanfm-qt/lxqt/settings.conf on Ubuntu 20.04.
+
+#TMPF=/tmp/lubuntu.tmp
+#cat > ${TMPF} << EOF
+#[*]
+#wallpaper_mode=center
+#wallpaper_common=1
+#wallpapers_configured=1
+#wallpaper0=/usr/share/lubuntu/wallpapers/lubuntu-default-wallpaper.png
+#wallpaper=/usr/share/lubuntu/wallpapers/lubuntu-default-wallpaper.png
+#desktop_bg=#2e4060
+#desktop_fg=#ffffff
+#desktop_shadow=#000000
+#desktop_font=Ubuntu 11
+#show_wm_menu=0
+#sort=mtime;ascending;
+#show_documents=0
+#show_trash=1
+#show_mounts=1
+#EOF
+#sudo mkdir -p /home/p4/.config/pcmanfm/lubuntu
+#sudo mv ${TMPF} /home/p4/.config/pcmanfm/lubuntu/desktop-items-0.conf
+#sudo chown -R p4:p4 /home/p4/.config/
 
 # Do this last!
 sudo reboot
