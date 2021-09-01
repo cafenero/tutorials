@@ -9,10 +9,16 @@ PI_COMMIT="a5fd855d4b3293e23816ef6154e83dc6621aed6a"    # 2021-Aug-01
 P4C_COMMIT="2d086645244dd4264ba04944362c70ba7a88a8f1"   # 2021-Aug-01
 PTF_COMMIT="f8b201918263d2e292e6ec3f40638ede618715bd"   # 2021-Aug-01
 PROTOBUF_COMMIT="v3.6.1"
-GRPC_COMMIT="tags/v1.17.2"
+# GRPC_COMMIT="tags/v1.17.2"
+GRPC_COMMIT="tags/v1.39.1"
+
 
 #Get the number of cores to speed up the compilation process
 NUM_CORES=`grep -c ^processor /proc/cpuinfo`
+
+
+cp -r patches ${HOME}
+# PATCH_DIR="${HOME}/patches"
 
 
 # The install steps for p4lang/PI and p4lang/behavioral-model end
@@ -38,6 +44,9 @@ NUM_CORES=`grep -c ^processor /proc/cpuinfo`
 # https://bugs.launchpad.net/ubuntu/+source/automake/+bug/1250877
 # https://unix.stackexchange.com/questions/351394/makefile-installing-python-module-out-of-of-pythonpath
 
+
+wget -P ${HOME} https://raw.githubusercontent.com/jafingerhut/p4-guide/5dc2d80c8282f5cb01a803c46e537704bf0f3715/bin/py3localpath.py
+chmod +x ${HOME}/py3localpath.py
 PY3LOCALPATH=`${HOME}/py3localpath.py`
 
 move_usr_local_lib_python3_from_site_packages_to_dist_packages() {
@@ -95,47 +104,53 @@ move_usr_local_lib_python3_from_site_packages_to_dist_packages() {
 
 find /usr/lib /usr/local $HOME/.local | sort > $HOME/usr-local-1-before-protobuf.txt
 
-# --- Protobuf --- #
-git clone https://github.com/google/protobuf.git
-cd protobuf
-git checkout ${PROTOBUF_COMMIT}
-./autogen.sh
-# install-p4dev-v4.sh script doesn't have --prefix=/usr option here.
-./configure --prefix=/usr
-make -j${NUM_CORES}
-sudo make install
-sudo ldconfig
-# Force install python module
-#cd python
-#sudo python3 setup.py install
-#cd ../..
-cd ..
+# OK
+# # --- Protobuf --- #
+# git clone https://github.com/google/protobuf.git
+# cd protobuf
+# git checkout ${PROTOBUF_COMMIT}
+# ./autogen.sh
+# # install-p4dev-v4.sh script doesn't have --prefix=/usr option here.
+# ./configure --prefix=/usr
+# make -j${NUM_CORES}
+# sudo make install
+# sudo ldconfig
+# # Force install python module
+# #cd python
+# #sudo python3 setup.py install
+# #cd ../..
+# cd ..
+#
+# find /usr/lib /usr/local $HOME/.local | sort > $HOME/usr-local-2-after-protobuf.txt
 
-find /usr/lib /usr/local $HOME/.local | sort > $HOME/usr-local-2-after-protobuf.txt
+# skip
+# # --- gRPC --- #
+# git clone https://github.com/grpc/grpc.git
+# cd grpc
+# git checkout ${GRPC_COMMIT}
+# git submodule update --init --recursive
 
-# --- gRPC --- #
-git clone https://github.com/grpc/grpc.git
-cd grpc
-git checkout ${GRPC_COMMIT}
-git submodule update --init --recursive
-# Apply patch that seems to be necessary in order for grpc v1.17.2 to
-# compile and install successfully on an Ubuntu 19.10 and later
-# system.
-PATCH_DIR="${HOME}/patches"
-patch -p1 < "${PATCH_DIR}/disable-Wno-error-and-other-small-changes.diff" || echo "Errors while attempting to patch grpc, but continuing anyway ..."
-make -j${NUM_CORES}
-sudo make install
-# I believe the following 2 commands, adapted from similar commands in
-# src/python/grpcio/README.rst, should install the Python3 module
-# grpc.
-find /usr/lib /usr/local $HOME/.local | sort > $HOME/usr-local-2b-before-grpc-pip3.txt
-pip3 list | tee $HOME/pip3-list-2b-before-grpc-pip3.txt
-sudo pip3 install -rrequirements.txt
-GRPC_PYTHON_BUILD_WITH_CYTHON=1 sudo pip3 install .
-sudo ldconfig
-cd ..
 
-find /usr/lib /usr/local $HOME/.local | sort > $HOME/usr-local-3-after-grpc.txt
+# # # Apply patch that seems to be necessary in order for grpc v1.17.2 to
+# # # compile and install successfully on an Ubuntu 19.10 and later
+# # # system.
+# # PATCH_DIR="${HOME}/patches"
+# # patch -p1 < "${PATCH_DIR}/disable-Wno-error-and-other-small-changes.diff" || echo "Errors while attempting to patch grpc, but continuing anyway ..."
+
+
+# make -j${NUM_CORES}
+# sudo make install
+# # I believe the following 2 commands, adapted from similar commands in
+# # src/python/grpcio/README.rst, should install the Python3 module
+# # grpc.
+# find /usr/lib /usr/local $HOME/.local | sort > $HOME/usr-local-2b-before-grpc-pip3.txt
+# pip3 list | tee $HOME/pip3-list-2b-before-grpc-pip3.txt
+# sudo pip3 install -rrequirements.txt
+# GRPC_PYTHON_BUILD_WITH_CYTHON=1 sudo pip3 install .
+# sudo ldconfig
+# cd ..
+
+# find /usr/lib /usr/local $HOME/.local | sort > $HOME/usr-local-3-after-grpc.txt
 
 # Note: This is a noticeable difference between how an earlier
 # user-bootstrap.sh version worked, where it effectively ran
@@ -145,27 +160,28 @@ find /usr/lib /usr/local $HOME/.local | sort > $HOME/usr-local-3-after-grpc.txt
 # script, might result in less PI project features being compiled into
 # its binaries.
 
-# --- PI/P4Runtime --- #
-git clone https://github.com/p4lang/PI.git
-cd PI
-git checkout ${PI_COMMIT}
-git submodule update --init --recursive
-./autogen.sh
-# install-p4dev-v4.sh adds more --without-* options to the configure
-# script here.  I suppose without those, this script will cause
-# building PI code to include more features?
-./configure --with-proto
-make -j${NUM_CORES}
-sudo make install
-# install-p4dev-v4.sh at this point does these things, which might be
-# useful in this script, too:
-# Save about 0.25G of storage by cleaning up PI build
-make clean
-move_usr_local_lib_python3_from_site_packages_to_dist_packages
-sudo ldconfig
-cd ..
+# OK
+# # --- PI/P4Runtime --- #
+# git clone https://github.com/p4lang/PI.git
+# cd PI
+# git checkout ${PI_COMMIT}
+# git submodule update --init --recursive
+# ./autogen.sh
+# # install-p4dev-v4.sh adds more --without-* options to the configure
+# # script here.  I suppose without those, this script will cause
+# # building PI code to include more features?
+# ./configure --with-proto
+# make -j${NUM_CORES}
+# sudo make install
+# # install-p4dev-v4.sh at this point does these things, which might be
+# # useful in this script, too:
+# # Save about 0.25G of storage by cleaning up PI build
+# make clean
+# move_usr_local_lib_python3_from_site_packages_to_dist_packages
+# sudo ldconfig
+# cd ..
 
-find /usr/lib /usr/local $HOME/.local | sort > $HOME/usr-local-4-after-PI.txt
+# find /usr/lib /usr/local $HOME/.local | sort > $HOME/usr-local-4-after-PI.txt
 
 # --- Bmv2 --- #
 git clone https://github.com/p4lang/behavioral-model.git

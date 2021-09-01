@@ -84,7 +84,19 @@ apt-get install -y --no-install-recommends --fix-missing\
   vim \
   wget \
   xcscope-el \
-  xterm
+  xterm \
+  diff-highlight \
+  diff-highlight \
+  libgrpc-dev \
+  python3-grpcio \
+  grpc++ \
+  libgrpc++-dev \
+  libprotobuf-dev \
+  protobuf-compiler-grpc
+
+
+
+  
 
 # TBD: Should these packages be installed via apt-get ?  They are in
 # my install-p4dev-v4.sh script, but they might not be needed, either.
@@ -155,13 +167,13 @@ useradd -m -d /home/p4 -s /bin/bash p4
 echo "p4:p4" | chpasswd
 echo "p4 ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/99_p4
 chmod 440 /etc/sudoers.d/99_p4
-usermod -aG vboxsf p4
+usermod -aG yusuke p4
 
-cd /usr/share/lubuntu/wallpapers/
-cp /home/vagrant/p4-logo.png .
-rm lubuntu-default-wallpaper.png
-ln -s p4-logo.png lubuntu-default-wallpaper.png
-rm /home/vagrant/p4-logo.png
+# cd /usr/share/lubuntu/wallpapers/
+# cp /home/vagrant/p4-logo.png .
+# rm lubuntu-default-wallpaper.png
+# ln -s p4-logo.png lubuntu-default-wallpaper.png
+# rm /home/vagrant/p4-logo.png
 cd ~
 
 # 2021-Mar-06 this command failed with an error that the file did not exist.
